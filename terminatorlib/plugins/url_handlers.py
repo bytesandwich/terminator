@@ -5,7 +5,7 @@ import re
 import terminatorlib.plugin as plugin
 
 # Every plugin you want Terminator to load *must* be listed in 'AVAILABLE'
-AVAILABLE = ['LaunchpadBugURLHandler', 'LaunchpadCodeURLHandler', 'APTURLHandler']
+AVAILABLE = ['LaunchpadBugURLHandler', 'LaunchpadCodeURLHandler', 'APTURLHandler', 'ManpageURLHandler']
 
 class LaunchpadBugURLHandler(plugin.URLHandler):
     """Launchpad Bug URL handler. If the URL looks like a Launchpad changelog
@@ -57,3 +57,15 @@ class APTURLHandler(plugin.URLHandler):
         """Actually we don't need to do anything for this to work"""
         return(url)
 
+class ManpageURLHandler(plugin.URLHandler):
+    """Man page url handler. If the URL looks like a man page link, then it will
+    be handled appropriately."""
+    capabilities = ['url_handler']
+    handler_name = 'manpage_handler'
+    nameopen = "Open manpage link"
+    namecopy = "Copy manpage link"
+    match = '\\bman:([a-zA-Z\.]+(\(\d+\))?)\\b'
+
+    def callback(self, url):
+        """Let larger system handle man page link"""
+        return(url)
